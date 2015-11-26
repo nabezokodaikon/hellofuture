@@ -14,15 +14,34 @@ case class Sum(a: Int, b: Int) {
 object Main extends LazyLogging {
 
   def main(args: Array[String]) = {
-    example2()
+    example4()
   }
 
-  // def example3() = {
-    // import scala.concurrent.ExecutionContext.Implicits.global
+  def example4() = {
+    import scala.concurrent.ExecutionContext.Implicits.global
+    val p: Promise[String] = Promise[String]
+    val a: Future[String] = p.future
+    a.foreach(println)
+    scala.concurrent.ExecutionContext.Implicits.global.execute(
+      new Runnable {
+        def run = {
+          Thread.sleep(3000)
+          p.success("fuga")
+        }
+      }
+    )
+  }
 
-    // val a = Future[String] = Future {
-    // }
-  // }
+  def example3() = {
+    import scala.concurrent.ExecutionContext.Implicits.global
+
+    val a: Future[String] = Future {
+      Thread.sleep(3000)
+      "fuga"
+    }
+
+    a.foreach(println)
+  }
 
   def example2() = {
     val ec: ExecutionContext = scala.concurrent.ExecutionContext.Implicits.global
