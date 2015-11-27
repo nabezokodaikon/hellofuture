@@ -12,7 +12,7 @@ case class Sum(a: Int, b: Int) {
 object Main extends LazyLogging {
 
   def main(args: Array[String]) = {
-    Example0.example4()
+    Example1.example3()
   }
 
 }
