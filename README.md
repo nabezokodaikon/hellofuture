@@ -1,6 +1,7 @@
 # Future の練習
 
 ## 参考
+* http://mashi.hatenablog.com/entry/2014/11/24/010417
 * http://qiita.com/mtoyoshi/items/08766629abea6eb8e4bc
 * http://qiita.com/mtoyoshi/items/297f6acdfe610440c719
 * http://qiita.com/mtoyoshi/items/f68beb17710c3819697f
