@@ -93,4 +93,52 @@ object Example3 {
     }
     Await.ready(ff, Duration.Inf)
   }
+
+  def example8() {
+    val f: Future[List[Int]] = Future.traverse((1 to 10).toList) { i =>
+      Future {
+        if (i == 5 || i == 7) {
+          throw new Exception(s"Error $i")
+        } else {
+          i
+        }
+      } recover {
+        case t =>
+          println(t.getMessage)
+          -1
+      }
+    }
+
+    f.onSuccess {
+      case r: List[Int] =>
+        val grouped = r.groupBy(v => v != -1)
+        def count(key: Boolean): Int = grouped.get(key).map(_.size).getOrElse(0)
+        println(s"success: ${count(true)}, fail: ${count(false)}")
+    }
+
+    Await.ready(f, Duration.Inf)
+  }
+
+  def example9() {
+    val f: Future[List[Int]] = Future.traverse((1 to 10).toList) { i =>
+      Future {
+        if (i == 5 || i == 7) {
+          throw new Exception(s"Error $i")
+        } else {
+          i
+        }
+      } fallbackTo {
+        Future.successful(-1)
+      }
+    }
+
+    f.onSuccess {
+      case r: List[Int] =>
+        val grouped = r.groupBy(v => v != -1)
+        def count(key: Boolean): Int = grouped.get(key).map(_.size).getOrElse(0)
+        println(s"success: ${count(true)}, fail: ${count(false)}")
+    }
+
+    Await.ready(f, Duration.Inf)
+  }
 }
